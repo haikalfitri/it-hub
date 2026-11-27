@@ -1,6 +1,7 @@
-import { Boxes, LifeBuoy, ListChecks, Search, User } from 'lucide-react'
+import { BookOpen, Boxes, LifeBuoy, ListChecks, Search, User } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { GUIDES } from '@/content/guides'
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { useCurrentPerson, useDemoStore } from '@/store/useDemoStore'
 
@@ -50,6 +51,14 @@ export function SearchPalette() {
         <CommandInput placeholder="Type a guide, asset tag, serial, ticket or name…" />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Guides">
+            {GUIDES.map((g) => (
+              <CommandItem key={g.slug} value={`${g.title} ${g.summary} ${g.category}`} onSelect={() => go(`/help/${g.slug}`)}>
+                <BookOpen aria-hidden />
+                <span className="truncate">{g.title}</span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
           <CommandGroup heading="Assets">
             {data.assets.map((a) => (
               <CommandItem key={a.id} value={`${a.tag} ${a.serial} ${a.model}`} onSelect={() => go(`/assets/${a.id}`)}>
