@@ -8,7 +8,7 @@ Updated 2026-11-27. Tick items as they are done, and add new ones as they appear
 - [x] Check the live site from outside: every page, refresh on an inner page, `/?tour=start`
 - [x] Re-run Lighthouse on the live site (target performance ≥ 90 on mobile)
 - [x] Add the live link to `README.md` and the GitHub repo homepage field
-- [ ] Update portfolio card #11 (`C:\dev\Portfolio\index.html`) with the live link and tour link; show the user before pushing
+- [x] Update portfolio card #11 with the live demo (tour) and GitHub links (pushed, live on the portfolio)
 - [ ] Click through the tour yourself and adjust any wording
 
 ## Done
