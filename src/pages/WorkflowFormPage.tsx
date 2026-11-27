@@ -1,6 +1,6 @@
 import { ArrowLeft, Check, Info, Send } from 'lucide-react'
 import { useState } from 'react'
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { EmptyState } from '@/components/common/EmptyState'
 import { Field, NativeSelect } from '@/components/common/Field'
@@ -14,6 +14,7 @@ import type { Department, RequestData, SystemName, WorkflowType } from '@/domain
 import { ALL_SYSTEMS } from '@/domain/workflowDefs'
 import { departmentHead, WORKFLOWS } from '@/domain/workflows'
 import { useCurrentPerson, useDemoStore } from '@/store/useDemoStore'
+import { TOUR_REASON } from '@/tour/steps'
 
 const DEPARTMENTS: Department[] = ['Finance', 'Engineering', 'Operations', 'HR', 'IT']
 const ITEM_TYPES = ['Laptop', 'Monitor', 'Phone', 'Tablet', 'Peripheral', 'Desktop']
@@ -41,9 +42,10 @@ export default function WorkflowFormPage() {
   const submitRequest = useDemoStore((s) => s.submitRequest)
   const switchRole = useDemoStore((s) => s.switchRole)
   const navigate = useNavigate()
+  const [params] = useSearchParams()
   const [form, setForm] = useState<RequestData>(() => ({
     itemType: 'Laptop',
-    reason: '',
+    reason: params.get('tour') === '1' ? TOUR_REASON : '',
     neededBy: daysFrom(new Date(), 7),
     system: 'ERP',
     level: 'Read',

@@ -31,6 +31,8 @@ export interface DemoStore {
   cancelRequest: (id: string) => Result
   voteHelpful: (slug: string, v: 'up' | 'down') => void
   markAllRead: () => void
+  /** Replace demo data wholesale (used by the guided tour's recovery). */
+  setData: (data: DemoState) => void
 }
 
 type Persisted = Pick<DemoStore, 'data' | 'currentPersonId' | 'theme' | 'tourDone'>
@@ -80,6 +82,7 @@ export function createDemoStore(storage = createSafeStorage()) {
           cancelRequest: (id) => run((d, a, n) => cancelRequest(d, id, a, n)),
           voteHelpful: (slug, v) => set({ data: { ...get().data, helpfulVotes: { ...get().data.helpfulVotes, [slug]: v } } }),
           markAllRead: () => set({ data: markAllReadFn(get().data, get().currentPersonId) }),
+          setData: (data) => set({ data }),
         }
       },
       {

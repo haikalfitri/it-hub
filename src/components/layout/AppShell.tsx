@@ -1,9 +1,12 @@
-import { Menu } from 'lucide-react'
+import { Menu, PlayCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { useApplyTheme } from '@/hooks/useApplyTheme'
+import { startTour } from '@/tour/events'
+import { TourOverlay } from '@/tour/TourOverlay'
+import { TourProvider } from '@/tour/TourProvider'
 import { Logo } from './Logo'
 import { NotificationBell } from './NotificationBell'
 import { ResetButton } from './ResetButton'
@@ -39,6 +42,9 @@ export function Header({ extraActions }: { extraActions?: React.ReactNode }) {
       <SearchPalette />
       <div className="ml-auto flex items-center gap-1 sm:gap-2">
         {extraActions}
+        <Button variant="ghost" size="lg" className="hidden lg:inline-flex" onClick={startTour}>
+          <PlayCircle /> Tour
+        </Button>
         <RoleSwitcher />
         <NotificationBell />
         <span className="hidden sm:inline-flex">
@@ -62,17 +68,20 @@ export function AppShell({ headerActions }: { headerActions?: React.ReactNode })
     window.scrollTo?.({ top: 0 })
   }, [pathname])
   return (
-    <div className="min-h-dvh md:grid md:grid-cols-[248px_1fr]">
-      <Sidebar />
-      <div className="min-w-0">
-        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-card focus:px-3 focus:py-2">
-          Skip to content
-        </a>
-        <Header extraActions={headerActions} />
-        <main id="main" className="mx-auto w-full max-w-[1240px] px-4 py-6 md:px-8 md:py-8">
-          <Outlet />
-        </main>
+    <TourProvider>
+      <div className="min-h-dvh md:grid md:grid-cols-[248px_1fr]">
+        <Sidebar />
+        <div className="min-w-0">
+          <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-card focus:px-3 focus:py-2">
+            Skip to content
+          </a>
+          <Header extraActions={headerActions} />
+          <main id="main" className="mx-auto w-full max-w-[1240px] px-4 py-6 md:px-8 md:py-8">
+            <Outlet />
+          </main>
+        </div>
       </div>
-    </div>
+      <TourOverlay />
+    </TourProvider>
   )
 }

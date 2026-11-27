@@ -228,7 +228,7 @@ function Outcome({ r, data }: { r: WorkflowRequest; data: DemoState }) {
   for (const a of assetEvents) items.push({ icon: Boxes, text: `${a.tag} (${a.model}) assigned to ${people.get(a.ownerId ?? '')?.name}`, to: `/assets/${a.id}` })
   items.push({ icon: LifeBuoy, text: `Ticket ${r.ticketId} resolved automatically`, to: `/tickets/${r.ticketId}` })
   return (
-    <section aria-labelledby="changed" className="rounded-[10px] border border-success/40 bg-success-soft/60 p-5">
+    <section aria-labelledby="changed" data-tour="what-changed" className="rounded-[10px] border border-success/40 bg-success-soft/60 p-5">
       <h2 id="changed" className="font-semibold text-success-strong">
         What changed
       </h2>
