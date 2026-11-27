@@ -89,4 +89,4 @@ Deployed on Netlify (`netlify.toml`, with `public/_redirects` for client-side ro
 
 ---
 
-Built by Haikal Fitri · [Portfolio](https://haikalfitri.github.io/Portfolio/)
+Built by Haikal Fitri · [Portfolio](https://haikalfitri.github.io/Portfolio/) · [MIT License](LICENSE)

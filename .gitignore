@@ -4,3 +4,8 @@ dist
 .superpowers/
 .vite
 public/__frame.html
+
+# Local planning notes (kept on disk, not published)
+docs/superpowers/
+PROJECT_TRACKER.md
+TODO.md
