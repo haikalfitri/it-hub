@@ -28,7 +28,7 @@ export interface NewTicketInput {
   assetId?: string
 }
 
-export function createTicket(state: DemoState, input: NewTicketInput, now: Date): Result {
+export function createTicket(state: DemoState, input: NewTicketInput, now: Date, opts: { silent?: boolean } = {}): Result {
   const title = input.title.trim()
   if (!title) return fail('Title is required')
   const id = nextId('TCK', state.tickets.map((t) => t.id))
@@ -50,6 +50,7 @@ export function createTicket(state: DemoState, input: NewTicketInput, now: Date)
     assetId: input.assetId ?? null,
   }
   const next = { ...state, tickets: [...state.tickets, ticket] }
+  if (opts.silent) return ok(next, id)
   return ok(notify(next, assigneeId, `New ticket ${id}: ${title}`, `/tickets/${id}`, now), id)
 }
 
