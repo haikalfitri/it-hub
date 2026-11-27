@@ -3,3 +3,4 @@ dist
 *.local
 .superpowers/
 .vite
+public/__frame.html
