@@ -2,13 +2,13 @@
 
 Read this first in a new session, then `TODO.md`. Keep both current: update them at each milestone and whenever the session context gets large (around 80%), before anything long-running.
 
-Last updated: 2026-11-27 (built, pushed to GitHub, Netlify deployed but still login-protected).
+Last updated: 2026-11-27 (live and public on Netlify).
 
 ## What it is
 A public, clickable portfolio demo of a connected IT system: Help Center, Service Desk, Asset Inventory, four approval workflows (onboarding, equipment, laptop surrender, system access), Dashboard, People/profiles, About page and a guided 6-step tour. It rebuilds, with fictional data, the internal system Haikal built at Cypark (SharePoint Help Center + ~20 digitised forms on AWS with M365 SSO). Owner: Haikal.
 
 - Repo: https://github.com/haikalfitri/it-hub (public, branch `master`). Local: `C:\dev\it-hub`.
-- Live: https://it-hub-ms.netlify.app/ (Netlify; **currently returns a Netlify login redirect, visitor access must be set to public**).
+- Live: https://it-hub-ms.netlify.app/ (Netlify, public; visitor access had to be switched off in Netlify).
 - Tour deep link: `/?tour=start`.
 - Spec: `docs/superpowers/specs/2026-11-27-it-hub-design.md`. Plan: `docs/superpowers/plans/2026-11-27-it-hub.md`.
 
@@ -25,7 +25,7 @@ React 19 + TypeScript + Vite, Tailwind v4 + shadcn/ui (radix-nova), Recharts, Lu
 ## Done
 - Brainstorm, grilling rounds, design doc, builder check, 16-task plan, native execution (all tasks).
 - Final whole-branch review; fixed: seeded pending requests stuck after approval, error boundary, stricter saved-data checks, tour stuck on non-laptop item, `?tour=start` now confirms before reset.
-- 112 tests pass. Lighthouse (local, simulated mobile): accessibility 100, best practices 100, performance 88–90 (Dashboard ~72, Recharts); desktop Dashboard 99.
+- 112 tests pass. Lighthouse on the live site (mobile): performance 90 / 95 / 94 (Home / Assets / Dashboard), accessibility 100, best practices 100, SEO 91.
 - Merged to `master`, public GitHub repo created with description and topics, deployed to Netlify.
 
 ## Decisions to remember

@@ -3,10 +3,11 @@
 Updated 2026-11-27. Tick items as they are done, and add new ones as they appear. Keep `PROJECT_TRACKER.md` in step.
 
 ## Now
-- [ ] Netlify: set Visitor access to public (site still returns a login redirect, 401)
-- [ ] Check the live site from outside: every page, refresh on an inner page, `/?tour=start`
-- [ ] Re-run Lighthouse on the live site (target performance ≥ 90 on mobile)
-- [ ] Add the live link to `README.md` and the GitHub repo homepage field
+- [ ] Optional: hide the "Powered by Netlify" badge (overlaps the tour card at bottom right)
+- [x] Netlify: set Visitor access to public (site still returns a login redirect, 401)
+- [x] Check the live site from outside: every page, refresh on an inner page, `/?tour=start`
+- [x] Re-run Lighthouse on the live site (target performance ≥ 90 on mobile)
+- [x] Add the live link to `README.md` and the GitHub repo homepage field
 - [ ] Update portfolio card #11 (`C:\dev\Portfolio\index.html`) with the live link and tour link; show the user before pushing
 - [ ] Click through the tour yourself and adjust any wording
 
@@ -30,4 +31,3 @@ Updated 2026-11-27. Tick items as they are done, and add new ones as they appear
 - [ ] Assets "My assets" default should follow role switches
 - [ ] Inline theme script to avoid a light flash for dark-mode users
 - [ ] Remove `clsx` / `tailwind-merge` if unused
-- [ ] Dashboard mobile performance (~72): defer charts further or use lighter bar tiles

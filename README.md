@@ -2,7 +2,7 @@
 
 A clickable demo of a connected IT system: a help center, a service desk, an asset inventory and four approval workflows that all share one set of data.
 
-**Live demo:** _link added after deploy_ · **Start straight in the guided tour:** add `/?tour=start` to the link
+**Live demo:** https://it-hub-ms.netlify.app/ · **Start straight in the guided tour:** https://it-hub-ms.netlify.app/?tour=start
 
 ![IT Hub home page in light mode](docs/screenshots/home-light.png)
 
@@ -10,7 +10,7 @@ A clickable demo of a connected IT system: a help center, a service desk, an ass
 
 ## Try it in 60 seconds
 
-1. Open the demo and press **Start the tour** (or use the `?tour=start` link).
+1. Open the [demo](https://it-hub-ms.netlify.app/) and press **Start the tour**, or go straight to [the tour](https://it-hub-ms.netlify.app/?tour=start).
 2. As **Aisyah (Staff)**, submit an equipment request for a laptop.
 3. Switch to **Daniel (Manager)** and approve it.
 4. Switch to **Hafiz (IT Admin)** and assign a laptop from stock.
@@ -63,7 +63,7 @@ At Cypark I built a SharePoint IT Help Center, and I designed the workflows and 
 - **All business rules are pure functions** in `src/domain/` (`workflows.ts`, `assets.ts`, `tickets.ts`, `stats.ts`). They take the current state and return a new one or an error message, so they are easy to test and the UI holds no logic.
 - A single **Zustand** store wraps those functions and saves to `localStorage`. If saved data is broken or from an old version, or storage is blocked, the app falls back to fresh demo data in memory.
 - Demo dates are generated **relative to today**, so warranty alerts and the 8-week ticket trend always look current.
-- **Accessibility:** keyboard navigable, visible focus, labelled controls, errors next to their fields, a data table behind every chart, light and dark themes, and reduced-motion support. Lighthouse accessibility and best practices score 100.
+- **Accessibility:** keyboard navigable, visible focus, labelled controls, errors next to their fields, a data table behind every chart, light and dark themes, and reduced-motion support. Lighthouse on the live site: performance 90–95, accessibility 100, best practices 100.
 - **Tests:** 105 Vitest + Testing Library tests, including the full equipment flow and the guided tour clicked through the real UI.
 
 ```
