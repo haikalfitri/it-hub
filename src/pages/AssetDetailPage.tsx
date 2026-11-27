@@ -72,10 +72,10 @@ export default function AssetDetailPage() {
             </dd>
           </div>
           {[
-            ['Serial number', <span className="font-mono">{asset.serial}</span>],
+            ['Serial number', <span key="serial" className="font-mono">{asset.serial}</span>],
             ['Site', asset.site],
             ['Purchased', formatDate(asset.purchaseDate)],
-            ['Warranty ends', <WarrantyBadge asset={asset} />],
+            ['Warranty ends', <WarrantyBadge key="warranty" asset={asset} />],
           ].map(([k, v]) => (
             <div key={k as string} className="flex items-center justify-between gap-3">
               <dt className="text-muted-foreground">{k}</dt>

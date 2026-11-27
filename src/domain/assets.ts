@@ -20,6 +20,9 @@ export function warrantyFlag(asset: Asset, today: Date): WarrantyFlag {
 
 export const isUnowned = (asset: Asset): boolean => asset.status === 'Assigned' && asset.ownerId === null
 
+/** Expired or expiring warranty, or marked assigned with no owner. */
+export const needsAttention = (asset: Asset, today: Date): boolean => warrantyFlag(asset, today) !== 'ok' || isUnowned(asset)
+
 export const personName = (state: DemoState, id: string | null): string =>
   state.people.find((p) => p.id === id)?.name ?? 'Unknown'
 

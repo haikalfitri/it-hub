@@ -7,8 +7,8 @@ import { NativeSelect } from '@/components/common/Field'
 import { PageHeader } from '@/components/common/PageHeader'
 import { StatusBadge } from '@/components/common/StatusBadge'
 import { Input } from '@/components/ui/input'
-import { isUnowned, warrantyFlag } from '@/domain/assets'
-import type { Asset, AssetStatus, AssetType, Site } from '@/domain/types'
+import { isUnowned, needsAttention } from '@/domain/assets'
+import type { AssetStatus, AssetType, Site } from '@/domain/types'
 import { usePeopleMap } from '@/hooks/usePeopleMap'
 import { cn } from '@/lib/utils'
 import { useCurrentPerson, useDemoStore } from '@/store/useDemoStore'
@@ -16,8 +16,6 @@ import { useCurrentPerson, useDemoStore } from '@/store/useDemoStore'
 const TYPES: AssetType[] = ['Laptop', 'Desktop', 'Monitor', 'Phone', 'Tablet', 'Peripheral']
 const STATUSES: AssetStatus[] = ['Assigned', 'In stock', 'In repair', 'Retired']
 const SITES: Site[] = ['HQ', 'Site A', 'Site B']
-
-export const needsAttention = (a: Asset, today: Date) => warrantyFlag(a, today) !== 'ok' || isUnowned(a)
 
 function Toggle({ pressed, onClick, icon: Icon, children }: { pressed: boolean; onClick: () => void; icon: typeof Boxes; children: React.ReactNode }) {
   return (

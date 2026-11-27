@@ -1,8 +1,7 @@
 import { AlertTriangle, ClipboardCheck, LifeBuoy, PackageCheck } from 'lucide-react'
-import { useMemo } from 'react'
+import { lazy, Suspense, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { WarrantyBadge } from '@/components/assets/WarrantyBadge'
-import { HorizontalBars, TicketTrendChart } from '@/components/charts/Charts'
 import { BentoTile } from '@/components/common/BentoTile'
 import { PageHeader } from '@/components/common/PageHeader'
 import { WORKFLOW_ICON, WORKFLOW_ORDER } from '@/components/workflows/meta'
@@ -10,6 +9,11 @@ import { dashboardStats } from '@/domain/stats'
 import { WORKFLOWS } from '@/domain/workflows'
 import { usePeopleMap } from '@/hooks/usePeopleMap'
 import { useDemoStore } from '@/store/useDemoStore'
+
+// Recharts is large, so the charts load after the numbers have painted.
+const TicketTrendChart = lazy(() => import('@/components/charts/Charts').then((m) => ({ default: m.TicketTrendChart })))
+const HorizontalBars = lazy(() => import('@/components/charts/Charts').then((m) => ({ default: m.HorizontalBars })))
+const ChartSkeleton = () => <div className="h-full min-h-72 animate-pulse rounded-2xl border bg-card motion-reduce:animate-none" />
 
 function Kpi({ title, value, note, icon, to, tone }: { title: string; value: number; note: string; icon: typeof LifeBuoy; to: string; tone?: 'warn' }) {
   return (
@@ -38,13 +42,19 @@ export default function DashboardPage() {
         <Kpi title="Warranty alerts" value={st.warrantyAlerts.length} note="expired or ending in 90 days" icon={AlertTriangle} to="/assets" tone="warn" />
 
         <div className="sm:col-span-2 sm:row-span-2">
-          <TicketTrendChart data={st.ticketTrend} />
+          <Suspense fallback={<ChartSkeleton />}>
+            <TicketTrendChart data={st.ticketTrend} />
+          </Suspense>
         </div>
         <div className="sm:col-span-2 xl:col-span-1 xl:row-span-2">
-          <HorizontalBars title="Tickets by status" unit="tickets" data={Object.entries(st.ticketsByStatus).map(([name, value]) => ({ name, value }))} />
+          <Suspense fallback={<ChartSkeleton />}>
+            <HorizontalBars title="Tickets by status" unit="tickets" data={Object.entries(st.ticketsByStatus).map(([name, value]) => ({ name, value }))} />
+          </Suspense>
         </div>
         <div className="sm:col-span-2 xl:col-span-1 xl:row-span-2">
-          <HorizontalBars title="Assets by type" unit="assets" data={Object.entries(st.assetsByType).map(([name, value]) => ({ name, value }))} />
+          <Suspense fallback={<ChartSkeleton />}>
+            <HorizontalBars title="Assets by type" unit="assets" data={Object.entries(st.assetsByType).map(([name, value]) => ({ name, value }))} />
+          </Suspense>
         </div>
 
         <BentoTile size="wide" title="Warranty alerts" icon={AlertTriangle}>

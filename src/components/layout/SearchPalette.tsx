@@ -1,16 +1,16 @@
-import { BookOpen, Boxes, LifeBuoy, ListChecks, Search, User } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { GUIDES } from '@/content/guides'
-import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
-import { useCurrentPerson, useDemoStore } from '@/store/useDemoStore'
+import { Search } from 'lucide-react'
+import { lazy, Suspense, useEffect, useState } from 'react'
+
+// The command palette (and its index of guides, assets and tickets) loads on first open.
+const SearchDialog = lazy(() => import('./SearchDialog'))
 
 export function SearchPalette() {
-  const [open, setOpen] = useState(false)
-  const navigate = useNavigate()
-  const me = useCurrentPerson()
-  const data = useDemoStore((s) => s.data)
-  const canSeePeople = me.role === 'it' || me.role === 'hr'
+  const [open, setOpenState] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const setOpen = (v: boolean | ((o: boolean) => boolean)) => {
+    setMounted(true)
+    setOpenState(v)
+  }
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -22,11 +22,6 @@ export function SearchPalette() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
-
-  const go = (to: string) => {
-    setOpen(false)
-    navigate(to)
-  }
 
   return (
     <>
@@ -47,58 +42,11 @@ export function SearchPalette() {
         <span className="truncate">Search guides, assets, tickets…</span>
         <kbd className="ml-auto hidden rounded border bg-card px-1.5 font-mono text-[11px] lg:inline">Ctrl K</kbd>
       </button>
-      <CommandDialog open={open} onOpenChange={setOpen} title="Search IT Hub" description="Search guides, assets, tickets, requests and people">
-        <CommandInput placeholder="Type a guide, asset tag, serial, ticket or name…" />
-        <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Guides">
-            {GUIDES.map((g) => (
-              <CommandItem key={g.slug} value={`${g.title} ${g.summary} ${g.category}`} onSelect={() => go(`/help/${g.slug}`)}>
-                <BookOpen aria-hidden />
-                <span className="truncate">{g.title}</span>
-              </CommandItem>
-            ))}
-          </CommandGroup>
-          <CommandGroup heading="Assets">
-            {data.assets.map((a) => (
-              <CommandItem key={a.id} value={`${a.tag} ${a.serial} ${a.model}`} onSelect={() => go(`/assets/${a.id}`)}>
-                <Boxes aria-hidden />
-                <span className="font-mono text-xs">{a.tag}</span>
-                <span className="truncate text-muted-foreground">{a.model}</span>
-              </CommandItem>
-            ))}
-          </CommandGroup>
-          <CommandGroup heading="Tickets">
-            {data.tickets.map((t) => (
-              <CommandItem key={t.id} value={`${t.id} ${t.title}`} onSelect={() => go(`/tickets/${t.id}`)}>
-                <LifeBuoy aria-hidden />
-                <span className="font-mono text-xs">{t.id}</span>
-                <span className="truncate">{t.title}</span>
-              </CommandItem>
-            ))}
-          </CommandGroup>
-          <CommandGroup heading="Requests">
-            {data.requests.map((r) => (
-              <CommandItem key={r.id} value={`${r.id} ${r.subjectName} ${r.type}`} onSelect={() => go(`/workflows/${r.id}`)}>
-                <ListChecks aria-hidden />
-                <span className="font-mono text-xs">{r.id}</span>
-                <span className="truncate">{r.subjectName}</span>
-              </CommandItem>
-            ))}
-          </CommandGroup>
-          {canSeePeople && (
-            <CommandGroup heading="People">
-              {data.people.map((p) => (
-                <CommandItem key={p.id} value={`${p.name} ${p.department} ${p.title}`} onSelect={() => go(`/people/${p.id}`)}>
-                  <User aria-hidden />
-                  <span>{p.name}</span>
-                  <span className="truncate text-muted-foreground">{p.department}</span>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          )}
-        </CommandList>
-      </CommandDialog>
+      {mounted && (
+        <Suspense fallback={null}>
+          <SearchDialog open={open} setOpen={setOpen} />
+        </Suspense>
+      )}
     </>
   )
 }

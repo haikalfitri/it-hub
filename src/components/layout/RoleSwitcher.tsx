@@ -37,7 +37,6 @@ export function RoleSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger
         data-tour="role-switcher"
-        aria-label={`Viewing as ${ROLE_LABEL[me.role]}: ${me.name}. Switch role`}
         className="flex h-10 items-center gap-2 rounded-full border bg-card py-1 pr-3 pl-1.5 text-sm shadow-soft transition-colors hover:bg-muted"
       >
         <Avatar name={me.name} />
@@ -46,6 +45,7 @@ export function RoleSwitcher() {
           <span className="block font-medium">{me.name}</span>
         </span>
         <span className="font-medium sm:hidden">{ROLE_LABEL[me.role]}</span>
+        <span className="sr-only">, switch role</span>
         <ChevronDown className="size-4 text-muted-foreground" aria-hidden />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-72">

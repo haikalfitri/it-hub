@@ -35,7 +35,7 @@ export function TicketTrendChart({ data }: { data: DashboardStats['ticketTrend']
       }
     >
       <ResponsiveContainer width="100%" height="100%" minHeight={192}>
-        <LineChart data={data} margin={{ top: 8, right: 12, bottom: 0, left: -20 }}>
+        <LineChart accessibilityLayer={false} data={data} margin={{ top: 8, right: 12, bottom: 0, left: -20 }}>
           <CartesianGrid vertical={false} stroke="var(--border)" />
           <XAxis dataKey="label" tick={AXIS} tickLine={false} axisLine={false} interval="preserveStartEnd" />
           <YAxis allowDecimals={false} tick={AXIS} tickLine={false} axisLine={false} width={44} />
@@ -57,7 +57,7 @@ export function HorizontalBars({ title, data, unit }: { title: string; data: { n
       table={{ head: ['Category', 'Count'], rows: data.map((d) => [d.name, d.value]) }}
     >
       <ResponsiveContainer width="100%" height="100%" minHeight={Math.max(160, data.length * 34)}>
-        <BarChart data={data} layout="vertical" margin={{ top: 0, right: 32, bottom: 0, left: 8 }} barCategoryGap={6}>
+        <BarChart accessibilityLayer={false} data={data} layout="vertical" margin={{ top: 0, right: 32, bottom: 0, left: 8 }} barCategoryGap={6}>
           <XAxis type="number" hide allowDecimals={false} />
           <YAxis type="category" dataKey="name" tick={AXIS} tickLine={false} axisLine={false} width={88} />
           <Tooltip content={<TooltipBox />} cursor={{ fill: 'var(--muted)', opacity: 0.6 }} />
