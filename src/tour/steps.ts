@@ -32,8 +32,10 @@ const IT = DEFAULT_PERSON_BY_ROLE.it
 export const TOUR_REASON = 'My current laptop is too slow for month-end reports.'
 
 const tourRequest = (s: TourSnapshot, ctx: TourCtx): WorkflowRequest | undefined => s.data.requests.find((r) => r.id === ctx.requestId)
-const latestStaffEquipment = (data: DemoState) => [...data.requests].reverse().find((r) => r.type === 'equipment' && r.requesterId === STAFF && r.status !== 'Rejected' && r.status !== 'Cancelled')
-const isOpen = (r?: WorkflowRequest) => !!r && (r.status === 'Pending' || r.status === 'Awaiting stock')
+const isTourLaptop = (r?: WorkflowRequest) => !!r && r.type === 'equipment' && r.requesterId === STAFF && r.data.itemType === 'Laptop'
+const latestStaffEquipment = (data: DemoState) => [...data.requests].reverse().find((r) => isTourLaptop(r) && r.status !== 'Rejected' && r.status !== 'Cancelled')
+/** Open, and still a laptop request the tour can complete. */
+const isOpen = (r?: WorkflowRequest) => isTourLaptop(r) && (r!.status === 'Pending' || r!.status === 'Awaiting stock')
 
 function freshRequest(data: DemoState, now: Date, approve: boolean): Recovery {
   const sub = submitRequest(data, 'equipment', STAFF, { itemType: 'Laptop', reason: TOUR_REASON, neededBy: '' }, now)

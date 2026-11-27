@@ -45,12 +45,21 @@ const fresh = (): Persisted => ({
 })
 
 function isValid(p: unknown): p is Persisted {
-  const d = (p as Persisted | undefined)?.data
+  const d = (p as Persisted | undefined)?.data as unknown as Record<string, unknown> | undefined
+  if (!d || d.version !== SCHEMA_VERSION) return false
+  const withId = (k: string, idKey = 'id') =>
+    Array.isArray(d[k]) && (d[k] as unknown[]).every((x) => !!x && typeof (x as Record<string, unknown>)[idKey] === 'string')
   return (
-    !!d &&
-    d.version === SCHEMA_VERSION &&
-    ['people', 'assets', 'tickets', 'requests', 'accounts', 'notifications'].every((k) => Array.isArray((d as unknown as Record<string, unknown>)[k])) &&
-    d.people.length > 0
+    withId('people') &&
+    (d.people as unknown[]).length > 0 &&
+    withId('assets') &&
+    (d.assets as { tag?: unknown }[]).every((a) => typeof a.tag === 'string' && Array.isArray((a as { history?: unknown }).history)) &&
+    withId('tickets') &&
+    withId('requests') &&
+    withId('accounts', 'personId') &&
+    withId('notifications') &&
+    !!d.helpfulVotes &&
+    typeof d.helpfulVotes === 'object'
   )
 }
 

@@ -54,6 +54,14 @@ describe('demo store hydration', () => {
     expect(Array.isArray(store.getState().data.people)).toBe(true)
     expect(store.getState().data.requests).toHaveLength(seedCount)
   })
+  it('reseeds when saved data lacks helpfulVotes or has malformed assets', () => {
+    const good = buildSeed(new Date())
+    const { helpfulVotes: _omit, ...noVotes } = good
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ state: { data: noVotes, currentPersonId: 'p-daniel' }, version: 1 }))
+    expect(createDemoStore().getState().data.helpfulVotes).toEqual({})
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ state: { data: { ...good, assets: [{}] }, currentPersonId: 'p-daniel' }, version: 1 }))
+    expect(createDemoStore().getState().data.assets.every((a) => typeof a.tag === 'string')).toBe(true)
+  })
   it('restores valid saved data and person', () => {
     const a = createDemoStore()
     a.getState().switchRole('manager')

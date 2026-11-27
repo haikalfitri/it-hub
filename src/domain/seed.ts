@@ -147,6 +147,8 @@ function assetSpecs(): AssetSpec[] {
   const monitorOwners = ['p-aisyah', 'p-daniel', 'p-farid', 'p-priya', 'p-jiahui', 'p-syafiqah', 'p-hafiz']
   monitorOwners.forEach((ownerId, i) => specs.push({ type: 'Monitor', ownerId, warrantyIn: i === 2 ? 75 : undefined }))
   specs.push({ type: 'Monitor', ownerId: null, status: 'Assigned', site: 'HQ' }) // unowned: needs attention
+  specs.push({ type: 'Monitor', ownerId: null, status: 'In stock' })
+  specs.push({ type: 'Monitor', ownerId: null, status: 'In stock' })
   // Phones.
   specs.push({ type: 'Phone', ownerId: 'p-nurul', warrantyIn: 20, site: 'Site A' })
   specs.push({ type: 'Phone', ownerId: 'p-siewling', site: 'Site A' })
@@ -333,7 +335,8 @@ export function buildSeed(today: Date): DemoState {
       return {
         kind,
         label: STEP_LABELS[r.type][kind]!,
-        actorId: st.actorId,
+        // Non-manager steps always belong to IT, even before they are reached.
+        actorId: st.actorId ?? (kind === 'manager' ? null : IT_ADMIN),
         decision: st.decision,
         ...(st.comment ? { comment: st.comment } : {}),
         ...(st.daysAgo !== undefined ? { at: ago(today, st.daysAgo, 1) } : {}),

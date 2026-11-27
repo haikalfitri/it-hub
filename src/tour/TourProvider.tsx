@@ -106,7 +106,7 @@ export function TourProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get('tour') === 'start') {
       offered.current = true
-      begin()
+      start()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

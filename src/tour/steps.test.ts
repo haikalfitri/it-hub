@@ -57,3 +57,15 @@ it('recovering the assign step leaves a request waiting on IT', () => {
   expect(r.steps[r.currentStep].kind).toBe('it-fulfil')
   expect(out.personId).toBe('p-hafiz')
 })
+
+it('step 1 only counts a laptop request, and recovery replaces a non-laptop request', () => {
+  const s0 = buildSeed(now)
+  const mon = unwrap(submitRequest(s0, 'equipment', 'p-aisyah', { itemType: 'Monitor', reason: 'x', neededBy: '' }, now))
+  expect(step('submit').done(snap(mon.state), {})).toBe(false)
+  const ap = unwrap(decide(mon.state, mon.id!, 'p-daniel', 'approve', '', now))
+  const out = step('assign').recover(snap(ap.state, 'p-hafiz'), { requestId: mon.id! }, now)
+  expect(out.ctx.requestId).not.toBe(mon.id)
+  const fresh = out.data.requests.find((r) => r.id === out.ctx.requestId)!
+  expect(fresh.data.itemType).toBe('Laptop')
+  expect(fresh.steps[fresh.currentStep].kind).toBe('it-fulfil')
+})
