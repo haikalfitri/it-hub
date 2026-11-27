@@ -137,7 +137,7 @@
   --input: #3a3766;
   --ring: #818cf8;
   --chart-1: #818cf8;
-  --chart-2: #34d399;
+  --chart-2: #10b981;
   --chart-3: #fbbf24;
   --chart-4: #c4b5fd;
   --chart-5: #64748b;
@@ -180,4 +180,23 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Staggered entrance for bento tiles (skipped under reduced motion via the global rule). */
+@keyframes tile-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stagger > * {
+    animation: tile-in 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .stagger > *:nth-child(2) { animation-delay: 50ms; }
+  .stagger > *:nth-child(3) { animation-delay: 100ms; }
+  .stagger > *:nth-child(4) { animation-delay: 150ms; }
+  .stagger > *:nth-child(5) { animation-delay: 200ms; }
+  .stagger > *:nth-child(6) { animation-delay: 250ms; }
+  .stagger > *:nth-child(n + 7) { animation-delay: 300ms; }
 }
